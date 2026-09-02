@@ -66,7 +66,7 @@ fun VoltageGauge(
 
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Canvas(modifier = Modifier.fillMaxWidth().height(220.dp)) {
-            val c: android.graphics.Canvas = drawContext.canvas
+            val c: android.graphics.Canvas = drawContext.nativeCanvas
             val cx = size.width / 2f
             val cy = size.height * 0.56f
             val r = minOf(size.width / 2f - PAD, size.height * 0.5f - PAD)
