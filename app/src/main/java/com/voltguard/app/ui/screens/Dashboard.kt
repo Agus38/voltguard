@@ -173,7 +173,7 @@ fun Dashboard(
         }
 
         Spacer(Modifier.height(20.dp))
-        SectionTitle("Riwayat tegangan", icon = Icons.Default.TrendingUp) {
+        SectionTitle("Riwayat tegangan", icon = Icons.AutoMirrored.Filled.TrendingUp) {
             Text(
                 if (voltageHistory.size > 1)
                     PowerFormatters.volt(voltageHistory.last().toFloat()) else "—",
@@ -223,7 +223,7 @@ fun Dashboard(
                 VgCard(modifier = Modifier.weight(1f)) {
                     StatTile("Arus input",
                         PowerFormatters.currentA(s.inputCurrent ?: s.chargeCurrent),
-                        if (s.isCharging) Icons.Default.TrendingUp else Icons.AutoMirrored.Filled.TrendingDown,
+                        if (s.isCharging) Icons.AutoMirrored.Filled.TrendingUp else Icons.AutoMirrored.Filled.TrendingDown,
                         sub = "maks. " + PowerFormatters.currentA(s.maxInputCurrent))
                 }
                 VgCard(modifier = Modifier.weight(1f)) {

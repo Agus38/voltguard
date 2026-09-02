@@ -39,17 +39,20 @@ private val KEY_ALERT = booleanPreferencesKey("alert_enabled")
 private val KEY_SOUND = booleanPreferencesKey("sound_enabled")
 private val KEY_PERSIST = intPreferencesKey("persist_seconds")
 
-private fun Preferences.asSettings() = MonitorSettings(
-    lowVinMv = this[KEY_LOW] ?: MonitorSettings.lowVinMv,
-    highVinMv = this[KEY_HIGH] ?: MonitorSettings.highVinMv,
-    lowVinAlertMv = this[KEY_LOW_ALERT] ?: MonitorSettings.lowVinAlertMv,
-    highVinAlertMv = this[KEY_HIGH_ALERT] ?: MonitorSettings.highVinAlertMv,
-    highTempWarnC = this[KEY_TEMP_WARN] ?: MonitorSettings.highTempWarnC,
-    highTempAlertC = this[KEY_TEMP_ALERT] ?: MonitorSettings.highTempAlertC,
-    alertEnabled = this[KEY_ALERT] ?: true,
-    soundEnabled = this[KEY_SOUND] ?: false,
-    persistSeconds = this[KEY_PERSIST] ?: 10,
-)
+private fun Preferences.asSettings(): MonitorSettings {
+    val def = MonitorSettings()
+    return MonitorSettings(
+        lowVinMv = this[KEY_LOW] ?: def.lowVinMv,
+        highVinMv = this[KEY_HIGH] ?: def.highVinMv,
+        lowVinAlertMv = this[KEY_LOW_ALERT] ?: def.lowVinAlertMv,
+        highVinAlertMv = this[KEY_HIGH_ALERT] ?: def.highVinAlertMv,
+        highTempWarnC = this[KEY_TEMP_WARN] ?: def.highTempWarnC,
+        highTempAlertC = this[KEY_TEMP_ALERT] ?: def.highTempAlertC,
+        alertEnabled = this[KEY_ALERT] ?: def.alertEnabled,
+        soundEnabled = this[KEY_SOUND] ?: def.soundEnabled,
+        persistSeconds = this[KEY_PERSIST] ?: def.persistSeconds,
+    )
+}
 
 class SettingsStore(private val context: Context) {
 

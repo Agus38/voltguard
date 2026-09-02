@@ -60,7 +60,7 @@ class MainViewModel(app: VoltGuardApp) : ViewModel() {
     )
 
     fun collectNow() = repo.collectNow()
-    fun refreshHistory() = repo.refreshHistory()
+    fun refreshHistory() { viewModelScope.launch { repo.refreshHistory() } }
     fun clearHistory() { repo.clearHistory() }
 
     fun updateSettings(transform: (MonitorSettings) -> MonitorSettings) {

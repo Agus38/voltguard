@@ -1,6 +1,7 @@
 package com.voltguard.app.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,11 +38,12 @@ fun VgCard(
     content: @Composable () -> Unit,
 ) {
     Surface(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
         shape = shape,
         color = color,
         border = BorderStroke(1.dp, CardStroke),
-        onClick = onClick,
     ) {
         Column(modifier = Modifier.padding(18.dp)) { content() }
     }

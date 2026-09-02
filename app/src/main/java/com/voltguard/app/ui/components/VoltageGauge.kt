@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidBrush
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.font.FontWeight
@@ -63,24 +65,24 @@ fun VoltageGauge(
             val box = Offset(center.x - radius, center.y - radius)
             val dim = Size(radius * 2f, radius * 2f)
 
-            drawArc(Brush.solid(Color(0x26FFFFFF)), START_DEG, SWEEP_DEG, false, box, dim,
+            drawArc(SolidBrush(Color(0x26FFFFFF)), START_DEG, SWEEP_DEG, false, box, dim,
                 style = androidx.compose.ui.graphics.drawscope.Stroke(ARC_W, StrokeCap.Round))
 
             if (bandMin != null && bandMax != null) {
                 val b0 = ((bandMin - LO) / (HI - LO)).coerceIn(0f, 1f)
                 val b1 = ((bandMax - LO) / (HI - LO)).coerceIn(0f, 1f)
-                drawArc(Brush.solid(color.copy(alpha = 0.30f)), START_DEG + SWEEP_DEG * b0,
+                drawArc(SolidBrush(color.copy(alpha = 0.30f)), START_DEG + SWEEP_DEG * b0,
                     (SWEEP_DEG * (b1 - b0)).coerceAtLeast(0f), false, box, dim,
                     style = androidx.compose.ui.graphics.drawscope.Stroke(ARC_W, StrokeCap.Round))
             }
 
             if (animated > 0.001f) {
-                drawArc(Brush.solid(color), START_DEG, SWEEP_DEG * animated, false, box, dim,
+                drawArc(SolidBrush(color), START_DEG, SWEEP_DEG * animated, false, box, dim,
                     style = androidx.compose.ui.graphics.drawscope.Stroke(ARC_W, StrokeCap.Round))
             }
 
             val a = (START_DEG + SWEEP_DEG * animated) * PI / 180f
-            val dot = Offset(center.x + cos(a) * radius, center.y + sin(a) * radius)
+            val dot = Offset((center.x + cos(a) * radius).toFloat(), (center.y + sin(a) * radius).toFloat())
             drawCircle(color, 9f, dot)
             drawCircle(Bg, 4f, dot)
         }

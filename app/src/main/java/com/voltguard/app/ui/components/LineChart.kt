@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.voltguard.app.ui.theme.Amber
+import com.voltguard.app.ui.theme.Red
 import com.voltguard.app.ui.theme.TextMuted
 import kotlin.math.max
 
