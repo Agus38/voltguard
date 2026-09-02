@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import com.voltguard.app.data.PowerFormatters
-import com.voltguard.app.data.PowerFormatters.HealthState
+import com.voltguard.app.data.HealthState
 import com.voltguard.app.data.AlertEvent
 import com.voltguard.app.data.AlertLevel
 import com.voltguard.app.ui.UiPower

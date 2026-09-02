@@ -19,27 +19,27 @@ data class PowerSnapshot(
     val temperature: Double,              // Celsius
 
     // --- Voltages (in mV) ---
-    val voltage: Float,                   // current cell voltage (mV)
-    val vinVoltage: Float?,               // input/charger voltage (mV), null if unavailable
-    val maxVinVoltage: Float?,            // max designed input voltage (mV)
-    val minVinVoltage: Float?,            // min designed input voltage (mV)
+    val voltage: Float = 0f,              // current cell voltage (mV)
+    val vinVoltage: Float? = null,        // input/charger voltage (mV), null if unavailable
+    val maxVinVoltage: Float? = null,     // max designed input voltage (mV)
+    val minVinVoltage: Float? = null,     // min designed input voltage (mV)
 
     // --- Currents / power ---
-    val chargeNow: Float,                 // charge accumulated now (uA)
-    val chargeCounter: Float,             // charge counter (uAh)
-    val inputCurrent: Float?,             // input current (uA), null if unavailable
-    val outputCurrent: Float?,            // output current (uA), null if unavailable
-    val chargeCurrent: Float?,            // actual charge current (uA), null if unavailable
-    val maxChargeCurrent: Float?,         // designed max charge current (uA)
-    val maxInputCurrent: Float?,          // designed max input current (uA)
-    val maxDischargeCurrent: Float?,      // designed max discharge current (uA)
-    val power: Double?,                   // computed input power (W), null if inputs missing
-    val chargePower: Double?,             // computed charge power (W)
+    val chargeNow: Float = 0f,            // instantaneous current (uA)
+    val chargeCounter: Float = 0f,        // charge counter (uAh)
+    val inputCurrent: Float? = null,      // input current (uA), null if unavailable
+    val outputCurrent: Float? = null,     // output current (uA), null if unavailable
+    val chargeCurrent: Float? = null,     // actual charge current (uA), null if unavailable
+    val maxChargeCurrent: Float? = null,  // designed max charge current (uA)
+    val maxInputCurrent: Float? = null,   // designed max input current (uA)
+    val maxDischargeCurrent: Float? = null, // designed max discharge current (uA)
+    val power: Double? = null,            // computed power (W), null if inputs missing
+    val chargePower: Double? = null,      // computed charge power (W)
 
     // --- Health / misc ---
-    val health: Int,                      // BatteryManager.BATTERY_HEALTH_*
-    val cycleCount: Int?,                 // charge cycle count (rare)
-    val capacity: Int?,                   // relative max capacity as % (rare)
+    val health: Int = 0,                  // BatteryManager.BATTERY_HEALTH_*
+    val cycleCount: Int? = null,          // charge cycle count (rare)
+    val capacity: Int? = null,            // relative max capacity as % (rare)
     val pluggedTypeText: String = "",     // friendly plug type
     val statusText: String = "",          // friendly charge status
     val isCharging: Boolean = false,

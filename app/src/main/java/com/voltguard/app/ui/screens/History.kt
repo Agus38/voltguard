@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.voltguard.app.data.PowerFormatters
-import com.voltguard.app.data.PowerFormatters.HealthState
 import com.voltguard.app.data.db.SampleEntity
 import com.voltguard.app.ui.components.LineChart
 import com.voltguard.app.ui.components.SectionTitle

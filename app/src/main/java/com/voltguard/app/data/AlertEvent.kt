@@ -1,7 +1,5 @@
 package com.voltguard.app.data
 
-import com.voltguard.app.data.PowerFormatters.HealthState
-
 /** Level of a raised monitoring alert. */
 enum class AlertLevel { WARN, ALERT }
 

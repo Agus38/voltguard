@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.voltguard.app.VoltGuardApp
 import com.voltguard.app.data.AlertEvent
 import com.voltguard.app.data.PowerFormatters
-import com.voltguard.app.data.PowerFormatters.HealthState
+import com.voltguard.app.data.HealthState
 import com.voltguard.app.data.PowerSnapshot
 import com.voltguard.app.data.db.SampleEntity
 import com.voltguard.app.data.prefs.MonitorSettings

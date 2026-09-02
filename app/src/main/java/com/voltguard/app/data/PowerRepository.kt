@@ -17,10 +17,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 /**
  * Single source of truth for power telemetry.
@@ -40,8 +37,8 @@ class PowerRepository(
 ) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    private val samplerMutex = Mutex()
     @Volatile private var sampler: Job? = null
+    private val samplerLock = Any()
 
     private val _snapshot = MutableStateFlow(PowerSnapshot(timestamp = 0L, level = 0, plugged = 0,
         status = 0, present = true, tech = "—", temperature = 0.0, voltage = 0f))
@@ -80,7 +77,7 @@ class PowerRepository(
 
     /** Kick the sampling loop (idempotent). Call from the service. */
     fun start() {
-        samplerMutex.withLock {
+        synchronized(samplerLock) {
             if (sampler?.isActive == true) return
             sampler = scope.launch {
                 while (true) {
@@ -92,7 +89,7 @@ class PowerRepository(
     }
 
     fun stop() {
-        samplerMutex.withLock {
+        synchronized(samplerLock) {
             sampler?.cancel()
             sampler = null
         }

@@ -15,7 +15,7 @@ class VoltGuardApp : Application() {
         instance = this
         repository = PowerRepository(
             app = this,
-            settingsStore = SettingsStore(this),
+            store = SettingsStore(this),
             db = AppDatabase.get(this),
         )
     }

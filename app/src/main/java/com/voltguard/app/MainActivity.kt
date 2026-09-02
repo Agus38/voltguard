@@ -23,7 +23,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.ExperimentalWindowApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -92,7 +91,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalWindowApi::class)
 @Composable
 fun VoltGuardRoot(viewModel: MainViewModel) {
     val ui by viewModel.ui.collectAsState()
