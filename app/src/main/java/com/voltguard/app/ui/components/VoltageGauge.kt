@@ -101,14 +101,14 @@ fun VoltageGauge(
         }
 
         Column(
-            modifier = Modifier.offset(y = (-52).dp),
+            modifier = Modifier.offset(y = 2.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(label, color = TextMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
                 letterSpacing = 1.6.sp)
             Text(
                 if (displayMv > 0f) "%.1f V".format(displayMv / 1000f) else "—",
-                color = TextPrimary, fontSize = 40.sp, fontWeight = FontWeight.Bold,
+                color = TextPrimary, fontSize = 38.sp, fontWeight = FontWeight.Bold,
             )
             Text(
                 if (displayMv > 0f) "%.0f mV".format(displayMv) else "menunggu data…",
