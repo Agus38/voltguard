@@ -4,12 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [ main, master ]
-    paths:
-      - 'app/**'
-      - 'build.gradle.kts'
-      - 'settings.gradle.kts'
-      - 'gradle/**'
-      - '.github/workflows/android.yml'
 
 jobs:
   build:
