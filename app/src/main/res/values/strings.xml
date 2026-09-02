@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoltGuard</string>
+    <string name="notif_channel_name">Monitoring daya</string>
+    <string name="notif_channel_desc">Status tegangan &amp; pengisian di latar belakang</string>
+    <string name="notif_ongoing">VoltGuard memantau daya…</string>
+    <string name="notif_alert">Perhatian tegangan</string>
+    <string name="notif_default_text">VoltGuard aktif</string>
+</resources>

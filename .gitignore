@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+local.properties
+.kotlin/
+
+# Kotlin
+*.class
+*.kotlin_module
+
+# Android / IDE
+*.iml
+.idea/
+.DS_Store
+captures/
+.cxx/
+.externalNativeBuild/
+*.apk.idsig
+
+# Signing (jika kamu punya keystore sendiri selain yang disertakan)
+# keystore/*.jks
+# keystore/*.keystore
+
+# Build output (biarkan untuk upload artifact local, tapi jangan commit)
+app/build/
+build/
+**/generated/
+!**/src/**/generated/
