@@ -24,5 +24,6 @@ captures/
 # Build output (biarkan untuk upload artifact local, tapi jangan commit)
 app/build/
 build/
+dist/
 **/generated/
 !**/src/**/generated/
