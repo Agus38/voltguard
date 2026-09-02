@@ -1,5 +1,7 @@
 package com.voltguard.app.ui.components
 
+import android.graphics.Paint
+import android.graphics.RectF
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -8,18 +10,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,6 +24,7 @@ import com.voltguard.app.ui.theme.TextMuted
 import com.voltguard.app.ui.theme.TextPrimary
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.roundToInt
 import kotlin.math.sin
 
 private const val LO = 3_200f
@@ -37,9 +34,19 @@ private const val SWEEP_DEG = 240f
 private const val ARC_W = 18f
 private const val PAD = 24f
 
+/** Build an AARRGGBB int from a Compose [Color] without relying on ui-graphics extensions. */
+private fun Color.argbInt(): Int {
+    val a = (alpha * 255f).roundToInt() and 0xFF
+    val r = (red * 255f).roundToInt() and 0xFF
+    val g = (green * 255f).roundToInt() and 0xFF
+    val b = (blue * 255f).roundToInt() and 0xFF
+    return (a shl 24) or (r shl 16) or (g shl 8) or b
+}
+
 /**
  * 240° arc gauge for input/cell voltage, mapped over 3.2 V … 5.6 V.
- * Colored by the caller's health color.
+ * Colored by the caller's health color. Drawn with the platform Android Canvas
+ * (android.graphics) for maximum build compatibility.
  */
 @Composable
 fun VoltageGauge(
@@ -59,31 +66,46 @@ fun VoltageGauge(
 
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Canvas(modifier = Modifier.fillMaxWidth().height(220.dp)) {
-            val center = Offset(size.width / 2f, size.height * 0.56f)
-            val radius = minOf(size.width / 2f - PAD, size.height * 0.5f - PAD)
-            val box = Offset(center.x - radius, center.y - radius)
-            val dim = Size(radius * 2f, radius * 2f)
+            val c: android.graphics.Canvas = drawContext.canvas
+            val cx = size.width / 2f
+            val cy = size.height * 0.56f
+            val r = minOf(size.width / 2f - PAD, size.height * 0.5f - PAD)
+            val o = r - ARC_W / 2f
+            val rect = RectF(cx - o, cy - o, cx + o, cy + o)
 
-            drawArc(Brush.solid(Color(0x26FFFFFF)), START_DEG, SWEEP_DEG, false, box, dim,
-                style = androidx.compose.ui.graphics.drawscope.Stroke(ARC_W, StrokeCap.Round))
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                style = Paint.Style.STROKE
+                strokeWidth = ARC_W
+                strokeCap = Paint.Cap.ROUND
+            }
 
+            // Track
+            paint.color = 0x26FFFFFF.toInt()
+            c.drawArc(rect, START_DEG, SWEEP_DEG, false, paint)
+
+            // Designed-range band
             if (bandMin != null && bandMax != null) {
                 val b0 = ((bandMin - LO) / (HI - LO)).coerceIn(0f, 1f)
                 val b1 = ((bandMax - LO) / (HI - LO)).coerceIn(0f, 1f)
-                drawArc(Brush.solid(color.copy(alpha = 0.30f)), START_DEG + SWEEP_DEG * b0,
-                    (SWEEP_DEG * (b1 - b0)).coerceAtLeast(0f), false, box, dim,
-                    style = androidx.compose.ui.graphics.drawscope.Stroke(ARC_W, StrokeCap.Round))
+                paint.color = color.copy(alpha = 0.30f).argbInt()
+                c.drawArc(rect, START_DEG + SWEEP_DEG * b0, (SWEEP_DEG * (b1 - b0)).coerceAtLeast(0f), false, paint)
             }
 
+            // Value fill
             if (animated > 0.001f) {
-                drawArc(Brush.solid(color), START_DEG, SWEEP_DEG * animated, false, box, dim,
-                    style = androidx.compose.ui.graphics.drawscope.Stroke(ARC_W, StrokeCap.Round))
+                paint.color = color.argbInt()
+                c.drawArc(rect, START_DEG, SWEEP_DEG * animated, false, paint)
             }
 
-            val a = (START_DEG + SWEEP_DEG * animated) * PI / 180f
-            val dot = Offset((center.x + cos(a) * radius).toFloat(), (center.y + sin(a) * radius).toFloat())
-            drawCircle(color, 9f, dot)
-            drawCircle(Bg, 4f, dot)
+            // Needle dot
+            val ang = (START_DEG + SWEEP_DEG * animated) * PI / 180f
+            val px = cx + cos(ang).toFloat() * r
+            val py = cy + sin(ang).toFloat() * r
+            paint.style = Paint.Style.FILL
+            paint.color = color.argbInt()
+            c.drawCircle(px, py, 9f, paint)
+            paint.color = Bg.argbInt()
+            c.drawCircle(px, py, 4f, paint)
         }
 
         Column(
