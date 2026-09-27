@@ -38,9 +38,9 @@ fun VgCard(
     content: @Composable () -> Unit,
 ) {
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
+        onClick = onClick ?: {},
+        enabled = onClick != null,
+        modifier = modifier.fillMaxWidth(),
         shape = shape,
         color = color,
         border = BorderStroke(1.dp, CardStroke),
@@ -69,14 +69,14 @@ fun SectionTitle(
                 tint = TextSecondary,
                 modifier = Modifier.size(18.dp),
             )
-            Box(Modifier.weight(1f).padding(horizontal = 8.dp))
-        } else Box(Modifier.weight(1f))
+        }
         Text(
             text,
             style = StatLabel,
             color = TextSecondary,
             fontWeight = FontWeight.SemiBold,
             letterSpacing = 1.1.sp,
+            modifier = Modifier.padding(start = if (icon != null) 8.dp else 0.dp).weight(1f),
         )
         if (trailing != null) trailing()
     }
