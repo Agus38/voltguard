@@ -1,6 +1,6 @@
 # ⚡ VoltGuard
 
-**Author:** Agus Saputra  
+**Author:** Agus Dev  
 **License:** MIT
 
 Aplikasi Android (Kotlin + Jetpack Compose) untuk **memantau tegangan & daya yang masuk**

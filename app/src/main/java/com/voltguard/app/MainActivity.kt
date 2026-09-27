@@ -2,7 +2,7 @@ package com.voltguard.app
 
 /**
  * VoltGuard - Battery Voltage & Power Monitor
- * Author: Agus Saputra
+ * Author: Agus Dev
  * Copyright (c) 2026
  */
 

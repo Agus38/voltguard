@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 /**
  * AppDatabase - Room persistence
- * Author: Agus Saputra
+ * Author: Agus Dev
  * 
  * Migration strategy: version changes require explicit migrations to preserve user data.
  * Never use fallbackToDestructiveMigration in production.

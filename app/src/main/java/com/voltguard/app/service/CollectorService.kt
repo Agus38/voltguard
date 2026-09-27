@@ -2,7 +2,7 @@ package com.voltguard.app.service
 
 /**
  * CollectorService - Foreground service for background monitoring
- * Author: Agus Saputra
+ * Author: Agus Dev
  */
 
 import android.app.Notification
