@@ -47,7 +47,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.voltguard.app.data.UpdateChecker
+import com.voltguard.app.data.UpdateInfo
 import com.voltguard.app.ui.MainViewModel
+import com.voltguard.app.ui.components.UpdateDialog
 import com.voltguard.app.ui.screens.Dashboard
 import com.voltguard.app.ui.screens.History
 import com.voltguard.app.ui.screens.Settings
@@ -73,6 +76,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             VoltGuardTheme {
                 VoltGuardRoot(viewModel)
+            }
+        }
+        
+        // Check for updates on start
+        checkForUpdates()
+    }
+    
+    private fun checkForUpdates() {
+        lifecycleScope.launch {
+            val updateInfo = UpdateChecker.check(this@MainActivity)
+            if (updateInfo?.hasUpdate == true) {
+                viewModel.showUpdateDialog(updateInfo)
             }
         }
     }
@@ -105,8 +120,17 @@ fun VoltGuardRoot(viewModel: MainViewModel) {
     val history by viewModel.history.collectAsState()
     val settings by viewModel.settings.collectAsState()
     val alert by viewModel.lastAlert.collectAsState()
+    val updateInfo by viewModel.updateInfo.collectAsState()
     var tab by remember { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
+
+    // Show update dialog
+    if (updateInfo != null) {
+        UpdateDialog(
+            updateInfo = updateInfo!!,
+            onDismiss = { viewModel.dismissUpdateDialog() }
+        )
+    }
 
     // In-session voltage samples for the dashboard sparkline (most recent last).
     val session = remember { mutableStateOf(java.util.LinkedList<Float>()) }

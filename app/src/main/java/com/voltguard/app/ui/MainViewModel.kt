@@ -9,10 +9,13 @@ import com.voltguard.app.data.AlertEvent
 import com.voltguard.app.data.PowerFormatters
 import com.voltguard.app.data.HealthState
 import com.voltguard.app.data.PowerSnapshot
+import com.voltguard.app.data.UpdateInfo
 import com.voltguard.app.data.db.SampleEntity
 import com.voltguard.app.data.prefs.MonitorSettings
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -35,6 +38,9 @@ class MainViewModel(app: VoltGuardApp) : ViewModel() {
     val history: StateFlow<List<SampleEntity>> = repo.history
     val settings: StateFlow<MonitorSettings> = repo.settings
     val lastAlert: StateFlow<AlertEvent?> = repo.lastAlert
+    
+    private val _updateInfo = MutableStateFlow<UpdateInfo?>(null)
+    val updateInfo: StateFlow<UpdateInfo?> = _updateInfo.asStateFlow()
 
     val ui: StateFlow<UiPower> = repo.snapshot.map { s ->
         val health = PowerFormatters.overall(s)
@@ -65,6 +71,14 @@ class MainViewModel(app: VoltGuardApp) : ViewModel() {
 
     fun updateSettings(transform: (MonitorSettings) -> MonitorSettings) {
         repo.updateSettings(transform)
+    }
+    
+    fun showUpdateDialog(info: UpdateInfo) {
+        _updateInfo.value = info
+    }
+    
+    fun dismissUpdateDialog() {
+        _updateInfo.value = null
     }
 
     companion object {
