@@ -20,17 +20,18 @@ object PowerCollector {
     private const val PROP_CHARGE_COUNTER = BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER
     private const val PROP_CAPACITY = BatteryManager.BATTERY_PROPERTY_CAPACITY
 
-    fun collect(context: Context, intent: Intent): PowerSnapshot = try {
-        val bm = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
+    fun collect(context: Context, intent: Intent): PowerSnapshot {
+        return try {
+            val bm = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
 
-        val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1).let { if (it in 0..100) it else 0 }
-        val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
-        val plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0)
-        val present = intent.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true)
-        val tech = intent.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: "—"
-        val tempC = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) / 10.0
-        val voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toFloat()
-        val health = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN)
+            val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1).let { if (it in 0..100) it else 0 }
+            val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
+            val plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0)
+            val present = intent.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true)
+            val tech = intent.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: "—"
+            val tempC = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) / 10.0
+            val voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toFloat()
+            val health = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN)
 
         // Public BatteryManager reads.
         val chargeNow = safeInt(bm, PROP_CURRENT_NOW)?.toFloat() ?: 0f
@@ -58,7 +59,7 @@ object PowerCollector {
         val power = if (isCharging && v > 0f && (chargeCurrent ?: 0f) != 0f) (v * (chargeCurrent ?: 0f)) / 1e9 else null
         val chargePower = if (v > 0f && chargeCurrent != null && chargeCurrent != 0f) (v * chargeCurrent) / 1e9 else null
 
-        return PowerSnapshot(
+        PowerSnapshot(
             timestamp = System.currentTimeMillis(),
             level = level,
             plugged = plugged,

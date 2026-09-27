@@ -47,6 +47,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.voltguard.app.data.UpdateChecker
 import com.voltguard.app.data.UpdateInfo
 import com.voltguard.app.ui.MainViewModel
