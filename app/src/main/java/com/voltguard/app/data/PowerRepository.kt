@@ -1,5 +1,10 @@
 package com.voltguard.app.data
 
+/**
+ * PowerRepository - Core monitoring logic & data persistence
+ * Author: Agus Saputra
+ */
+
 import android.content.Context
 import com.voltguard.app.data.db.AppDatabase
 import com.voltguard.app.data.db.SampleEntity

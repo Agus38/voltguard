@@ -5,6 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+/**
+ * AppDatabase - Room persistence
+ * Author: Agus Saputra
+ * 
+ * Migration strategy: version changes require explicit migrations to preserve user data.
+ * Never use fallbackToDestructiveMigration in production.
+ */
 @Database(entities = [SampleEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -22,7 +29,10 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).build().also { INSTANCE = it }
+                )
+                // Future migrations go here when schema changes
+                // .addMigrations(MIGRATION_1_2)
+                .build().also { INSTANCE = it }
             }
     }
 }

@@ -20,7 +20,7 @@ object PowerCollector {
     private const val PROP_CHARGE_COUNTER = BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER
     private const val PROP_CAPACITY = BatteryManager.BATTERY_PROPERTY_CAPACITY
 
-    fun collect(context: Context, intent: Intent): PowerSnapshot {
+    fun collect(context: Context, intent: Intent): PowerSnapshot = try {
         val bm = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
 
         val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1).let { if (it in 0..100) it else 0 }
@@ -88,6 +88,20 @@ object PowerCollector {
             isCharging = isCharging,
             isDischarging = isDischarging,
             isUnpluggedFull = isUnpluggedFull,
+        )
+    } catch (e: Exception) {
+        // Fallback snapshot on error (exotic ROM or permission denied)
+        PowerSnapshot(
+            timestamp = System.currentTimeMillis(),
+            level = 0,
+            plugged = 0,
+            status = BatteryManager.BATTERY_STATUS_UNKNOWN,
+            present = false,
+            tech = "Error",
+            temperature = 0.0,
+            voltage = 0f,
+            statusText = "Gagal membaca",
+            pluggedTypeText = "—",
         )
     }
 

@@ -1,5 +1,11 @@
 package com.voltguard.app
 
+/**
+ * VoltGuard - Battery Voltage & Power Monitor
+ * Author: Agus Saputra
+ * Copyright (c) 2026
+ */
+
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager

@@ -1,5 +1,8 @@
 # ⚡ VoltGuard
 
+**Author:** Agus Saputra  
+**License:** MIT
+
 Aplikasi Android (Kotlin + Jetpack Compose) untuk **memantau tegangan & daya yang masuk**
 saat HP kamu di-charge. Tampilan modern, berjalan real-time, dengan alert jika tegangan/suhu
 di luar ambang yang kamu tentukan.

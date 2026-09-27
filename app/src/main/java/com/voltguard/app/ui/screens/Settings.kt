@@ -103,7 +103,8 @@ fun Settings(
         )
         VgCard(modifier = Modifier.fillMaxWidth().padding(top = 10.dp)) {
             Text(
-                "VoltGuard 1.0.1\\n" +
+                "VoltGuard 1.0.2\n" +
+                        "Dibuat oleh Agus Saputra\n\n" +
                         "Membaca tegangan, arus, daya, suhu, dan status pengisian dari sistem baterai Android " +
                         "(BatteryManager). Tegangan input adapter (VIN) hanya tampil bila ROM perangkat " +
                         "menyediakan datanya; jika tidak, app menampilkan tegangan sel sebagai acuan. " +
