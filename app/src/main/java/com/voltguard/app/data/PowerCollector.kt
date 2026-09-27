@@ -104,6 +104,7 @@ object PowerCollector {
             statusText = "Gagal membaca",
             pluggedTypeText = "—",
         )
+        }
     }
 
     private fun safeInt(bm: BatteryManager?, prop: Int): Int? = try {
