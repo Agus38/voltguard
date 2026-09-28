@@ -40,6 +40,7 @@ import com.voltguard.app.data.AlertEvent
 import com.voltguard.app.data.AlertLevel
 import com.voltguard.app.ui.UiPower
 import com.voltguard.app.ui.components.LineChart
+import com.voltguard.app.ui.components.PulseBox
 import com.voltguard.app.ui.components.SectionTitle
 import com.voltguard.app.ui.components.StatTile
 import com.voltguard.app.ui.components.VgCard
@@ -282,12 +283,14 @@ fun Dashboard(
 @Composable
 fun AlertBanner(title: String, msg: String, isAlert: Boolean) {
     val bg = if (isAlert) Red else Amber
-    VgCard(modifier = Modifier.fillMaxWidth().padding(top = 14.dp), color = bg.copy(alpha = 0.12f)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Warning, null, tint = bg, modifier = Modifier.width(20.dp).height(20.dp))
-            Column(Modifier.padding(start = 10.dp)) {
-                Text(title, color = bg, fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold)
-                Text(msg, color = TextSecondary, fontSize = 12.5.sp)
+    PulseBox(color = bg) {
+        VgCard(modifier = Modifier.fillMaxWidth().padding(top = 14.dp), color = bg.copy(alpha = 0.12f), glassEffect = true) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Default.Warning, null, tint = bg, modifier = Modifier.width(20.dp).height(20.dp))
+                Column(Modifier.padding(start = 10.dp)) {
+                    Text(title, color = bg, fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold)
+                    Text(msg, color = TextSecondary, fontSize = 12.5.sp)
+                }
             }
         }
     }

@@ -90,3 +90,12 @@ fun heroBrush(state: Color): Brush = Brush.radialGradient(
     center = androidx.compose.ui.geometry.Offset(x = 360f, y = 220f),
     radius = 700f,
 )
+
+/** Animated gradient background untuk dashboard */
+fun animatedGradient(primaryColor: Color, alpha: Float = 0.15f): Brush = Brush.verticalGradient(
+    colors = listOf(
+        primaryColor.copy(alpha = alpha),
+        Bg.copy(alpha = 0.9f),
+        Bg,
+    ),
+)

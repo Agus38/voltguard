@@ -35,6 +35,7 @@ fun VgCard(
     shape: RoundedCornerShape = RoundedCornerShape(22.dp),
     color: Color = Card,
     onClick: (() -> Unit)? = null,
+    glassEffect: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     Surface(
@@ -42,8 +43,8 @@ fun VgCard(
         enabled = onClick != null,
         modifier = modifier.fillMaxWidth(),
         shape = shape,
-        color = color,
-        border = BorderStroke(1.dp, CardStroke),
+        color = if (glassEffect) color.copy(alpha = 0.6f) else color,
+        border = BorderStroke(1.dp, if (glassEffect) Color(0x40FFFFFF) else CardStroke),
     ) {
         Column(modifier = Modifier.padding(18.dp)) { content() }
     }
